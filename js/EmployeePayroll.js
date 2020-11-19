@@ -1,9 +1,5 @@
 class EmployeePayrollData{
   //getters and setters
-  get id(){return this._id}
-  set id(id){
-    this._id = id
-  }
   get name(){return this._name}
   set name(name){
     let nameRegex = RegExp('^[A-Z]{1}[a-z]{2,}$')
@@ -39,7 +35,7 @@ class EmployeePayrollData{
   toString(){
     const options = {year: 'numeric', month: 'long', day: 'numeric'};
     const empDate = !this.startDate ? "undefined": this.startDate.toLocaleDateString("en-US", options);
-    return "id = " + this.id + ", name = " + this.name + ", gender = " + this.gender + ", profilePic = " + this.profilePic + ", department = " + this.department + ", salary = " + this.salary + ", startDate = " + empDate + ", note = " + this.note;
+    return "name = " + this.name + ", gender = " + this.gender + ", profilePic = " + this.profilePic + ", department = " + this.department + ", salary = " + this.salary + ", startDate = " + empDate + ", note = " + this.note;
   }
 }
 
@@ -48,7 +44,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   const nameError = document.querySelector('.name-error');
   name.addEventListener('input', function(){
     if(name.value.length == 0){
-      nameError = "";
+      nameError.textContent = "";
       return;
     }
     try{
@@ -76,3 +72,46 @@ date.oninput = function(){
   else
     dateError.textContent = "Put a valid Date";
 };
+
+const save = () => {
+  try{
+    let employeePayrollData = createEmployeePayroll();
+  }
+  catch(e){
+    return;
+  }
+}
+const createEmployeePayroll = () => {
+  let employeePayrollData = new EmployeePayrollData();
+  try{
+    employeePayrollData.name = getInputValueById('#name');
+  }
+  catch(e){
+    setTextValue('.name-error', e);
+    throw e;
+  }
+  employeePayrollData.profilePic = getSelectedValues('[name = profile]').pop();
+  employeePayrollData.gender = getSelectedValues('[name = gender]').pop();
+  employeePayrollData.department = getSelectedValues('[name = department]');
+  employeePayrollData.salary = getInputValueById('#salary');
+  employeePayrollData.note = getInputValueById('#notes');
+  // let date = getInputValueById('#day') + " " + getInputValueById('#month') + " " + getInputValueById('#year');
+  // employeePayrollData.startDate = Date.parse(date);
+  alert(employeePayrollData.toString());
+  return employeePayrollData;
+}
+
+const getSelectedValues = (propertyValue) => {
+  let allItems = document.querySelectorAll(propertyValue);
+  let selItems = [];
+  allItems.forEach(item => {
+    if(item.checked)
+      selItems.push(item.value);
+  })
+  return selItems;
+}
+
+const getInputValueById = (id) => {
+  let value = document.querySelector(id).value;
+  return value;
+}
