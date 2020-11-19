@@ -88,6 +88,11 @@ label{
   border-radius: 4px;
   resize: vertical;
 }
+.name-error{
+  font-size: 15px;
+  font-style: italic;
+  color: red;
+}
 .profile-radio-content{
   display: flex;
   flex-direction: row;
