@@ -89,6 +89,7 @@ date.addEventListener('input', function() {
 const save = () => {
   try{
     let employeePayrollData = createEmployeePayroll();
+    console.log(employeePayrollData)
     createAndUpdateStorage(employeePayrollData);
   }
   catch(e){
@@ -111,7 +112,7 @@ const createEmployeePayroll = () => {
   employeePayrollData.department = getSelectedValues('[name = department]');
   employeePayrollData.salary = getInputValueById('#salary');
   employeePayrollData.note = getInputValueById('#notes');
-  date = getInputValueById('#day') + " " + getInputValueById('#month') + " " + getInputValueById('#year');
+  date = getInputValueById('#day') + getInputValueById('#month') + getInputValueById('#year');
   employeePayrollData.startDate = Date.parse(date);
   alert(employeePayrollData.toString());
   return employeePayrollData;
@@ -133,6 +134,7 @@ const getInputValueById = (id) => {
 }
 //creating and updating storage 
 function createAndUpdateStorage(employeePayrollData){
+  localStorage.clear();
   let employeePayrollList = JSON.parse(localStorage.getItem("EmployeePayrollList"));
   if(employeePayrollList!=undefined){
     employeePayrollList.push(employeePayrollData);
