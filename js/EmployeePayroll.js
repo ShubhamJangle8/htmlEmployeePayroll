@@ -25,8 +25,15 @@ class EmployeePayrollData{
     this._salary = salary
   }
   get startDate(){return this._startDate}
-  set startDate(date){
-    this._startDate = date
+  set startDate(startDate){
+    let now = new Date();
+    if(startDate > now) {
+        throw 'Start Date is a Future Date!';
+    }
+    var diff = Math.abs(now.getTime() - startDate.getTime());
+    if(diff / (1000 * 60 * 60 * 24) > 30)
+        throw 'Start Date is beyond 30 days!';
+    this._startDate = startDate;
   }
   get note(){return this._note}
   set note(note){
@@ -63,24 +70,28 @@ salary.addEventListener('input', function(){
   output.textContent = salary.value;
 });
 
-const date = document.querySelector("#year");
+const date = document.querySelector("#date");
 const dateError = document.querySelector('.date-error');
-date.oninput = function(){
-  let dateLimit = Date.now();
-  if(new Date(date.value) < dateLimit)
-    dateError.textContent = "";
-  else
-    dateError.textContent = "Put a valid Date";
-};
+date.addEventListener('input', function() {
+  const startDate = new Date(Date.parse(getInputValueById('#day') + " " + getInputValueById('#month')+" "+getInputValueById('#year')));
+  try{
+      (new EmployeePayrollData()).startDate = startDate;
+      dateError.textContent = "";
+  }catch(e){
+      dateError.textContent = e;
+  }
+});
 
 const save = () => {
   try{
     let employeePayrollData = createEmployeePayroll();
+    createAndUpdateStorage(employeePayrollData);
   }
   catch(e){
     return;
   }
 }
+
 const createEmployeePayroll = () => {
   let employeePayrollData = new EmployeePayrollData();
   try{
@@ -95,8 +106,8 @@ const createEmployeePayroll = () => {
   employeePayrollData.department = getSelectedValues('[name = department]');
   employeePayrollData.salary = getInputValueById('#salary');
   employeePayrollData.note = getInputValueById('#notes');
-  // let date = getInputValueById('#day') + " " + getInputValueById('#month') + " " + getInputValueById('#year');
-  // employeePayrollData.startDate = Date.parse(date);
+  let date = getInputValueById('#day') + " " + getInputValueById('#month') + " " + getInputValueById('#year');
+  employeePayrollData.startDate = Date.parse(date);
   alert(employeePayrollData.toString());
   return employeePayrollData;
 }
@@ -114,4 +125,16 @@ const getSelectedValues = (propertyValue) => {
 const getInputValueById = (id) => {
   let value = document.querySelector(id).value;
   return value;
+}
+
+const createAndUpdateStorage = (employeePayrollData) => {
+  let employeePayrollList = JSON.parse(localStorage.getItem("EmployeePayrollList"));
+  if(employeePayrollList!=undefined){
+    employeePayrollList.push(employeePayrollData);
+  }
+  else{
+    employeePayrollList = [employeePayrollData];
+  }
+  alert(employeePayrollList.toString());
+  localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList))  
 }

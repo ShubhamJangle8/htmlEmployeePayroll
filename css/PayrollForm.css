@@ -92,6 +92,11 @@ label{
   font-style: italic;
   color: red;
 }
+.date-error{
+  font-size: 15px;
+  font-style: italic;
+  color: red;
+}
 .profile-radio-content{
   display: flex;
   flex-direction: row;
