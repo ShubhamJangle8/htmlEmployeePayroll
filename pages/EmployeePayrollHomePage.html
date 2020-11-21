@@ -15,7 +15,7 @@
 <body>
   <header class="header-content header">
       <div class="logo-content">
-          <img src="../assets/images/logo.png" alt="">
+          <img src="../assets/assets/images/logo.png" alt="">
           <div>
               <span class="emp-text">EMPLOYEE</span><br>
               <span class="emp-text emp-payroll">PAYROLL</span>
@@ -28,37 +28,15 @@
             Employee Details<div class="emp-count">10</div>
         </div>
         <a href="../pages/EmployeePayroll.html" class="add-button">
-            <img src="../assets/icons/add-24px.svg" alt="">+ Add User</a>
+            <img src="../assets/assets/icons/add-24px.svg" alt="">Add User</a>
     </div>
     <div class="table-main">
-      <table class="table" id="display">
-        <tr>
-          <th></th>
-          <th>Name</th>
-          <th>Gender</th>
-          <th>Department</th>
-          <th>Salary</th>
-          <th>Start Date</th>
-          <th>Actions</th>
-        </tr>
-        <tr>
-          <td><img class="profile" src="../assets/profile-images/Ellipse 1.png" alt=""></td>
-          <td>Maria</td>
-          <td>Female</td>
-          <td>
-            <div class="dept-label">HR</div>
-            <div class="dept-label">Finance</div>
-          </td>
-          <td>400000</td>
-          <td>1 October 2020</td>
-          <td>
-            <img id="1" src="../assets/assets/icons/delete-black-18dp.svg" onclick="remove(this)" alt="delete">
-            <img id="1" src="../assets/assets/icons/create-black-18dp.svg" onclick="update(this)" alt="edit">
-          </td>
-        </tr>
-      </table>
+      <table id="table-display" class="table"></table>
     </div>
   </div>
+  <script src="../js/EmployeePayroll.js"></script>
+  <script src="../js/Home_Page.js"></script>
+  <script src="../js/site_properties.js"></script>
+  <script src="../js/utility.js"></script>
 </body>
-
 </html>
